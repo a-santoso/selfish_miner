@@ -15,6 +15,8 @@ def Simulate(alpha, gamma, N, seed):
     # the revenue of the selfish mining pool
     SelfishRevenue = 0
 
+    hiddenBlocks = 0
+
     # A round begin when the state=0
     for i in range(N):
         r = random.random()
@@ -33,37 +35,69 @@ def Simulate(alpha, gamma, N, seed):
 
         elif state == 1:
             # The selfish pool has 1 hidden block.
+            hiddenBlocks = 1
             if r <= alpha:
             # The selfish miners found a new block.
             # Write a piece of code to change the required variables.
             # You might need to define new variable to keep track of the number of hidden blocks.
+                ChainLength += 1
+                state += 1
             else:
         # Write a piece of code to change the required variables.
+                state = -1 # go back to state 0'
+
 
         elif state == -1:
+
             # It's the state 0' in the slides (the paper of Eyal and Gun Sirer)
             # There are three situations!
             # Write a piece of code to change the required variables in each one.
-            if r <= alpha:
+            if r <= alpha: ## Pool mines a block on its previously private branch
+                state = 0
+                ChainLength += 1
+                SelfishRevenue = 2
+                hiddenBlocks = 0
 
-            elif r <= alpha + (1 - alpha) * gamma:
+            elif r <= alpha + (1 - alpha) * gamma: ## Others mine a block on the previously private branch
+                SelfishRevenue = 1
+                ChainLength += 1
+                state = 0
+                hiddenBlocks = 0
 
-            else:
-
+            else: ## Others mine a block on the public branch: frequency (1 - gamma) (1 - alpha)
+                SelfishRevenue = 0
+                ChainLength += 1
+                state = 0
+                hiddenBlocks = 0
 
         elif state == 2:
+            hiddenBlocks = 2
             # The selfish pool has 2 hidden block.
-            if r <= alpha:
+            if r <= alpha: ## Selfish wins again
+                ChainLength += 1
+                state += 1
+
+                hiddenBlocks += 1
 
             else:
         # The honest miners found a block.
+                state = 0
+                SelfishRevenue = 2
+                ChainLength += 1
+
 
         elif state > 2:
             if r <= alpha:
             # The selfish miners found a new block
+                state += 1
+                hiddenBlocks += 1
+                ChainLength +=1
 
             else:
         # The honest miners found a block
+                state = state - 1
+                hiddenBlocks = hiddenBlocks - 1
+                SelfishRevenue = 1
 
     return float(SelfishRevenue) / ChainLength
 
