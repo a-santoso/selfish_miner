@@ -28,7 +28,7 @@ def Simulate(alpha, gamma, N, seed):
                 # They don't publish it.
                 state = 1
 
-                SelfishRevenue = 0 ##PLACEHOLDER
+                #SelfishRevenue = 0 ##PLACEHOLDER
 
             else:
                 # The honest miners found a block.
@@ -37,7 +37,7 @@ def Simulate(alpha, gamma, N, seed):
                 ChainLength += 1
                 state = 0
 
-                SelfishRevenue = 0 ##PLACEHOLDER
+                #SelfishRevenue = 0 ##PLACEHOLDER
 
         elif state == 1:
             # The selfish pool has 1 hidden block.
@@ -49,13 +49,13 @@ def Simulate(alpha, gamma, N, seed):
                 state = 2
                 n = 2
 
-                SelfishRevenue = 0  ##PLACEHOLDER
+                #SelfishRevenue = n  ##PLACEHOLDER
 
             else:
         # Write a piece of code to change the required variables.
                 state = -1 # go back to state 0'
 
-                SelfishRevenue = 0  ##PLACEHOLDER
+                #SelfishRevenue = 0  ##PLACEHOLDER
 
 
         elif state == -1:
@@ -87,7 +87,6 @@ def Simulate(alpha, gamma, N, seed):
             if r <= alpha: ## Selfish wins again
                 n = n + 1
                 state = 3
-                SelfishRevenue = 0  ##PLACEHOLDER
 
             else:
         # The honest miners found a block.
@@ -102,12 +101,12 @@ def Simulate(alpha, gamma, N, seed):
             # The selfish miners found a new block
                 n = n + 1
                 state = state + 1
-                SelfishRevenue = 0  ##PLACEHOLDER
+
 
             else:
         # The honest miners found a block
                 state = state - 1
-                SelfishRevenue = 1
+                #SelfishRevenue = 1
 
     return float(SelfishRevenue) / ChainLength
 
