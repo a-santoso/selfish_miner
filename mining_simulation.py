@@ -16,6 +16,7 @@ def Simulate(alpha, gamma, N, seed):
     SelfishRevenue = 0
 
     hiddenBlocks = 0
+    n = 0
 
     # A round begin when the state=0
     for i in range(N):
